@@ -1,0 +1,403 @@
+@prefix : <http://dh.aks.ac.kr/ontology/seowondeungrok#> .
+@prefix seowon: <http://dh.aks.ac.kr/ontology/seowondeungrok#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://dh.aks.ac.kr/ontology/seowondeungrok>
+    a owl:Ontology ;
+    rdfs:label "서원등록 온톨로지"@ko ;
+    rdfs:comment "『서원등록』 정책·청원 문건 분석을 위해 설계한 온톨로지이다. 문건, 사건, 행위, 청원대상항목, 인물, 서원, 지역, 청원결과를 주요 클래스로 설정하고, 이들 사이의 기록·포함·제향·관련서원·결과·지역 관계를 구조화한다."@ko .
+
+#################################################################
+# 1. Classes
+#################################################################
+
+### 1.1 문건 클래스
+seowon:Document
+    a owl:Class ;
+    rdfs:label "문건"@ko ;
+    rdfs:comment "『서원등록』에 수록된 개별 기록 단위이다. 원문, 번역문, 건명, 날짜, 왕대, 재위년 등의 속성을 지닌다."@ko .
+
+### 1.2 사건 클래스
+seowon:Event
+    a owl:Class ;
+    rdfs:label "사건"@ko ;
+    rdfs:comment "문건에 기록된 의미 단위이다. 청건, 청액, 추향, 복설·훼철, 정책 등 서원 관련 사안을 포괄한다."@ko .
+
+### 1.3 행위 클래스
+seowon:Act
+    a owl:Class ;
+    rdfs:label "행위"@ko ;
+    rdfs:comment "사건을 구성하는 구체적 행위 단위이다. 청원, 심사, 보고, 지시, 정책 시행 등의 행위를 포함한다."@ko .
+
+### 1.4 청원대상항목 클래스
+seowon:PetitionItem
+    a owl:Class ;
+    rdfs:label "청원대상항목"@ko ;
+    rdfs:comment "하나의 청원 행위 안에서 서원·인물·결과가 분기되는 경우, 개별 청원 대상을 분리하여 표현하기 위한 단위이다."@ko .
+
+### 1.5 인물 클래스
+seowon:Person
+    a owl:Class ;
+    rdfs:label "인물"@ko ;
+    rdfs:comment "서원 배향 대상 인물 및 문건에 등장하는 관련 인물을 나타낸다."@ko .
+
+### 1.6 서원 클래스
+seowon:Seowon
+    a owl:Class ;
+    rdfs:label "서원"@ko ;
+    rdfs:comment "『서원등록』에 등장하는 서원 또는 사우를 나타낸다."@ko .
+
+### 1.7 지역 클래스
+seowon:Region
+    a owl:Class ;
+    rdfs:label "지역"@ko ;
+    rdfs:comment "서원 또는 사우의 소재 지역을 나타낸다."@ko .
+
+### 1.8 청원결과 클래스
+seowon:Result
+    a owl:Class ;
+    rdfs:label "청원결과"@ko ;
+    rdfs:comment "청원 행위 또는 청원대상항목의 처리 결과를 나타낸다. 허가, 불허, 보류 등을 포함한다."@ko .
+
+#################################################################
+# 2. Object Properties
+#################################################################
+
+### 2.1 문건-행위 관계
+seowon:records
+    a owl:ObjectProperty ;
+    owl:inverseOf seowon:isRecordedIn ;
+    rdfs:domain seowon:Document ;
+    rdfs:range seowon:Act ;
+    rdfs:label "기록하다"@ko ;
+    rdfs:comment "문건이 특정 행위를 기록하는 관계이다."@ko .
+
+seowon:isRecordedIn
+    a owl:ObjectProperty ;
+    owl:inverseOf seowon:records ;
+    rdfs:domain seowon:Act ;
+    rdfs:range seowon:Document ;
+    rdfs:label "기록되다"@ko ;
+    rdfs:comment "행위가 특정 문건에 기록되는 관계이다."@ko .
+
+### 2.2 사건-행위 관계
+seowon:hasAction
+    a owl:ObjectProperty ;
+    owl:inverseOf seowon:partOfEvent ;
+    rdfs:domain seowon:Event ;
+    rdfs:range seowon:Act ;
+    rdfs:label "(행위를)포함하다"@ko ;
+    rdfs:comment "사건이 하나 이상의 행위를 포함하는 관계이다."@ko .
+
+seowon:partOfEvent
+    a owl:ObjectProperty ;
+    owl:inverseOf seowon:hasAction ;
+    rdfs:domain seowon:Act ;
+    rdfs:range seowon:Event ;
+    rdfs:label "(사건에)속하다"@ko ;
+    rdfs:comment "행위가 특정 사건에 속하는 관계이다."@ko .
+
+### 2.3 행위-행위 순서 관계
+seowon:precedes
+    a owl:ObjectProperty ;
+    owl:inverseOf seowon:follows ;
+    rdfs:domain seowon:Act ;
+    rdfs:range seowon:Act ;
+    rdfs:label "(행위에)앞서다"@ko ;
+    rdfs:comment "어떤 행위가 다른 행위보다 시간적으로 앞서는 관계이다."@ko .
+
+seowon:follows
+    a owl:ObjectProperty ;
+    owl:inverseOf seowon:precedes ;
+    rdfs:domain seowon:Act ;
+    rdfs:range seowon:Act ;
+    rdfs:label "(행위에)이어지다"@ko ;
+    rdfs:comment "어떤 행위가 다른 행위에 이어지는 관계이다."@ko .
+
+### 2.4 사건·행위 유형 관계
+seowon:eventGroup
+    a owl:ObjectProperty ;
+    rdfs:domain seowon:Event ;
+    rdfs:label "사건범주"@ko ;
+    rdfs:comment "사건의 큰 범주를 나타내는 관계이다. 예: 청원, 정책."@ko .
+
+seowon:eventType
+    a owl:ObjectProperty ;
+    rdfs:domain seowon:Event ;
+    rdfs:label "사건유형"@ko ;
+    rdfs:comment "사건의 세부 유형을 나타내는 관계이다. 예: 청건, 청액, 추향, 복설·훼철, 정책."@ko .
+
+seowon:actType
+    a owl:ObjectProperty ;
+    rdfs:domain seowon:Act ;
+    rdfs:label "행위유형"@ko ;
+    rdfs:comment "행위의 세부 유형을 나타내는 관계이다. 예: 청건청원, 청액청원, 추향청원, 정책시행 등."@ko .
+
+### 2.5 행위-청원대상항목 관계
+seowon:hasPetitionItem
+    a owl:ObjectProperty ;
+    owl:inverseOf seowon:itemOfAct ;
+    rdfs:domain seowon:Act ;
+    rdfs:range seowon:PetitionItem ;
+    rdfs:label "청원대상항목을 포함하다"@ko ;
+    rdfs:comment "하나의 청원 행위가 하나 이상의 청원대상항목을 포함하는 관계이다."@ko .
+
+seowon:itemOfAct
+    a owl:ObjectProperty ;
+    owl:inverseOf seowon:hasPetitionItem ;
+    rdfs:domain seowon:PetitionItem ;
+    rdfs:range seowon:Act ;
+    rdfs:label "청원행위에 속하다"@ko ;
+    rdfs:comment "청원대상항목이 특정 청원 행위에 속하는 관계이다."@ko .
+
+### 2.6 사건·행위·청원대상항목-서원 관계
+seowon:concernsSeowon
+    a owl:ObjectProperty ;
+    rdfs:domain [ a owl:Class ; owl:unionOf (seowon:Event seowon:Act seowon:PetitionItem) ] ;
+    rdfs:range seowon:Seowon ;
+    rdfs:label "관련서원"@ko ;
+    rdfs:comment "사건, 행위 또는 청원대상항목이 특정 서원과 관련되는 관계이다."@ko .
+
+### 2.7 행위·청원대상항목-인물 관계
+seowon:petitionsForEnshrinementOf
+    a owl:ObjectProperty ;
+    owl:inverseOf seowon:isPetitionedForEnshrinementBy ;
+    rdfs:domain [ a owl:Class ; owl:unionOf (seowon:Act seowon:PetitionItem) ] ;
+    rdfs:range seowon:Person ;
+    rdfs:label "제향하다"@ko ;
+    rdfs:comment "청원 행위 또는 청원대상항목이 특정 인물을 제향 대상으로 삼는 관계이다."@ko .
+
+seowon:isPetitionedForEnshrinementBy
+    a owl:ObjectProperty ;
+    owl:inverseOf seowon:petitionsForEnshrinementOf ;
+    rdfs:domain seowon:Person ;
+    rdfs:range [ a owl:Class ; owl:unionOf (seowon:Act seowon:PetitionItem) ] ;
+    rdfs:label "제향되다"@ko ;
+    rdfs:comment "특정 인물이 청원 행위 또는 청원대상항목의 제향 대상으로 연결되는 관계이다."@ko .
+
+seowon:hasExistingEnshrinedPerson
+    a owl:ObjectProperty ;
+    rdfs:domain seowon:Event ;
+    rdfs:range seowon:Person ;
+    rdfs:label "기존배향인물"@ko ;
+    rdfs:comment "추향 사건 당시 해당 서원·사우에 이미 배향되어 있던 인물을 나타내는 관계이다."@ko .
+
+### 2.8 행위·청원대상항목-청원결과 관계
+seowon:hasPetitionResult
+    a owl:ObjectProperty ;
+    rdfs:domain [ a owl:Class ; owl:unionOf (seowon:Act seowon:PetitionItem) ] ;
+    rdfs:range seowon:Result ;
+    rdfs:label "청원결과"@ko ;
+    rdfs:comment "청원 행위 또는 청원대상항목에 대한 허가·불허·보류 등의 결과를 나타내는 관계이다."@ko .
+
+### 2.9 서원-지역 관계
+seowon:hasRegion
+    a owl:ObjectProperty ;
+    rdfs:domain seowon:Seowon ;
+    rdfs:range seowon:Region ;
+    rdfs:label "소재지역"@ko , "has region"@en ;
+    rdfs:comment "서원이 특정 지역에 소재하는 관계이다."@ko .
+
+#################################################################
+# 3. Datatype Properties
+#################################################################
+
+### 3.1 문건 속성
+seowon:headnote
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Document ;
+    rdfs:range xsd:string ;
+    rdfs:label "건명"@ko ;
+    rdfs:comment "문건의 제목 또는 두주 정보를 나타낸다."@ko .
+
+seowon:originalText
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Document ;
+    rdfs:range xsd:string ;
+    rdfs:label "원문"@ko ;
+    rdfs:comment "문건의 한문 원문을 나타낸다."@ko .
+
+seowon:translation
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Document ;
+    rdfs:range xsd:string ;
+    rdfs:label "번역문"@ko ;
+    rdfs:comment "문건의 한국어 번역문을 나타낸다."@ko .
+
+seowon:gregorianDate
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Document ;
+    rdfs:range xsd:date ;
+    rdfs:label "양력"@ko ;
+    rdfs:comment "문건의 양력 날짜를 나타낸다."@ko .
+
+seowon:dateLabel
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Document ;
+    rdfs:range xsd:string ;
+    rdfs:label "날짜표기"@ko ;
+    rdfs:comment "문건의 날짜를 사람이 읽을 수 있는 문자열로 나타낸다."@ko .
+
+seowon:reignMonarch
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Document ;
+    rdfs:range xsd:string ;
+    rdfs:label "왕대"@ko ;
+    rdfs:comment "문건이 작성된 왕대를 나타낸다."@ko .
+
+seowon:reignYear
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Document ;
+    rdfs:range xsd:integer ;
+    rdfs:label "재위년"@ko ;
+    rdfs:comment "문건이 작성된 왕의 재위년을 정수로 나타낸다."@ko .
+
+seowon:reignYearLabel
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Document ;
+    rdfs:range xsd:string ;
+    rdfs:label "재위년표기"@ko ;
+    rdfs:comment "문건의 재위년 정보를 문자열로 나타낸다."@ko .
+
+seowon:sexagenaryYear
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Document ;
+    rdfs:range xsd:string ;
+    rdfs:label "간지"@ko ;
+    rdfs:comment "문건이 작성된 해의 간지를 나타낸다."@ko .
+
+### 3.2 인물 속성
+seowon:hanjaName
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "한자명"@ko ;
+    rdfs:comment "인물의 한자 이름을 나타낸다."@ko .
+
+seowon:lifeSpan
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "생몰년"@ko ;
+    rdfs:comment "인물의 생몰년을 문자열로 나타낸다."@ko .
+
+seowon:birthYear
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Person ;
+    rdfs:range xsd:integer ;
+    rdfs:label "생년"@ko ;
+    rdfs:comment "인물의 생년을 정수로 나타낸다."@ko .
+
+seowon:deathYear
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Person ;
+    rdfs:range xsd:integer ;
+    rdfs:label "몰년"@ko ;
+    rdfs:comment "인물의 몰년을 정수로 나타낸다."@ko .
+
+### 3.3 서원 속성
+seowon:locationLabel
+    a owl:DatatypeProperty ;
+    rdfs:domain seowon:Seowon ;
+    rdfs:range xsd:string ;
+    rdfs:label "소재지"@ko ;
+    rdfs:comment "서원의 소재지를 문자열로 나타낸다."@ko .
+
+### 3.4 외부 참조 속성
+seowon:externalURL
+    a owl:DatatypeProperty ;
+    rdfs:domain [ a owl:Class ; owl:unionOf (seowon:Person seowon:Seowon) ] ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "외부URL"@ko ;
+    rdfs:comment "인물 또는 서원에 대한 외부 참조 URL을 나타낸다."@ko .
+
+#################################################################
+# 4. Controlled Vocabulary Individuals
+#################################################################
+
+### 4.1 사건범주
+seowon:Petition
+    a owl:NamedIndividual ;
+    rdfs:label "청원"@ko .
+
+seowon:Policy
+    a owl:NamedIndividual ;
+    rdfs:label "정책"@ko .
+
+### 4.2 사건유형
+seowon:Foundation
+    a owl:NamedIndividual ;
+    rdfs:label "청건"@ko .
+
+seowon:RoyalDesignation
+    a owl:NamedIndividual ;
+    rdfs:label "청액"@ko .
+
+seowon:AdditionalEnshrinement
+    a owl:NamedIndividual ;
+    rdfs:label "추향"@ko .
+
+seowon:Restoration
+    a owl:NamedIndividual ;
+    rdfs:label "복설훼철"@ko .
+
+### 4.3 행위유형
+seowon:FoundationPetition
+    a owl:NamedIndividual ;
+    rdfs:label "청건청원"@ko .
+
+seowon:RoyalDesignationPetition
+    a owl:NamedIndividual ;
+    rdfs:label "청액청원"@ko .
+
+seowon:AdditionalEnshrinementPetition
+    a owl:NamedIndividual ;
+    rdfs:label "추향청원"@ko .
+
+seowon:RestorationPetition
+    a owl:NamedIndividual ;
+    rdfs:label "복설"@ko .
+
+seowon:AbolitionPetition
+    a owl:NamedIndividual ;
+    rdfs:label "훼철"@ko .
+
+seowon:DeEnshrinementPetition
+    a owl:NamedIndividual ;
+    rdfs:label "출향"@ko .
+
+seowon:ReEnshrinementPetition
+    a owl:NamedIndividual ;
+    rdfs:label "복향"@ko .
+
+seowon:RestoredDesignationPetition
+    a owl:NamedIndividual ;
+    rdfs:label "복액"@ko .
+
+seowon:RevokedDesignationPetition
+    a owl:NamedIndividual ;
+    rdfs:label "철액"@ko .
+
+seowon:RS_RoyalDesignation
+    a owl:NamedIndividual ;
+    rdfs:label "청액"@ko .
+
+seowon:PolicyExecution
+    a owl:NamedIndividual ;
+    rdfs:label "정책시행"@ko .
+
+### 4.4 청원결과
+seowon:Approved
+    a owl:NamedIndividual, seowon:Result ;
+    rdfs:label "허가"@ko, "Approved"@en .
+
+seowon:Rejected
+    a owl:NamedIndividual, seowon:Result ;
+    rdfs:label "불허"@ko, "Rejected"@en .
+
+seowon:Deferred
+    a owl:NamedIndividual, seowon:Result ;
+    rdfs:label "보류"@ko, "Pending"@en .
