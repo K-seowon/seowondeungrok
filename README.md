@@ -9,32 +9,9 @@
 - `datasets/links.csv` : 주요 관계 목록입니다. 역방향 중복 관계 일부를 제외하여 분석과 확인이 쉽도록 정리한 파일입니다.
 - `datasets/links_all.csv` : TTL에 포함된 모든 ObjectProperty 관계를 CSV로 변환한 전체 관계 파일입니다.
 - `datasets/node_texts.csv` : 문건 원문과 번역문을 분리한 텍스트 파일입니다.
-
-
-## nodes.csv 주요 컬럼
-
-| 컬럼 | 설명 |
-|---|---|
-| `id` | 개체 식별자 |
-| `label` | 개체 라벨 |
-| `type` | 개체 유형 ID |
-| `type_label` | 개체 유형 한글명 |
-| `uri` | RDF URI |
-| `gregorianDate`, `dateLabel`, `reignMonarch`, `reignYearLabel` | 문건 날짜 관련 속성 |
-| `hanjaName`, `birthYear`, `deathYear`, `lifeSpan` | 인물 관련 속성 |
-| `locationLabel`, `externalURL` | 서원·지역 등 참조 속성 |
-
-## links.csv / links_all.csv 주요 컬럼
-
-| 컬럼 | 설명 |
-|---|---|
-| `source` | 소스 개체 ID |
-| `target` | 타겟 개체 ID |
-| `relation` | 관계 유형 ID |
-| `relation_label` | 관계 유형 한글명 |
-| `source_label`, `target_label` | 소스·타겟 개체 라벨 |
-| `source_type`, `target_type` | 소스·타겟 개체 유형 |
-| `relation_uri` | RDF 관계 URI |
+- `ontology/seowondeungrok_ontology_design.owl` : 『서원등록』 온톨로지 설계 파일
+- `analysis/seowondeungrok_fuseki_queries_results.xlsx` :  Apache Jena Fuseki에서 실행한 SPARQL 질의문과 결과 표    
+ 
 
 ## 활용 방법
 
