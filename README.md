@@ -10,7 +10,9 @@
 - `datasets/links_all.csv` : TTL에 포함된 모든 ObjectProperty 관계를 CSV로 변환한 전체 관계 파일입니다.
 - `datasets/node_texts.csv` : 문건 원문과 번역문을 분리한 텍스트 파일입니다.
 - `ontology/seowondeungrok_ontology_design.ttl` : 『서원등록』 온톨로지 설계 파일
-- `analysis/seowondeungrok_fuseki_queries_results.xlsx` :  Apache Jena Fuseki에서 실행한 SPARQL 질의문과 결과 표    
+- `analysis/queries/` : Apache Jena Fuseki에서 실행한 SPARQL 질의문을 질의별 CSV 파일로 정리한 폴더입니다.
+- `analysis/results/` : 각 SPARQL 질의의 실행 결과를 질의별 CSV 파일로 정리한 폴더입니다.
+- `analysis/manifest.csv` : 질의 파일과 결과 파일의 대응 관계를 정리한 목록입니다.  
  
 
 ## 활용 방법
