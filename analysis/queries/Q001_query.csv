@@ -1,0 +1,54 @@
+﻿1694이전 3곳이상 중첩 배향인물
+PREFIX : <http://dh.aks.ac.kr/ontology/seowondeungrok#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?personLabel
+       (COUNT(DISTINCT ?seowon) AS ?seowonCount)
+       (GROUP_CONCAT(
+          DISTINCT CONCAT(
+"            STR(?seowonLabel),"
+"            ""("","
+"            SUBSTR(?firstDateText, 1, 4),"
+"            "")"""
+          );
+"          separator="", """
+        ) AS ?seowonList)
+WHERE {
+  {
+    SELECT ?person ?seowon (MIN(?dateText) AS ?firstDateText)
+    WHERE {
+      VALUES ?eventType {
+        :AdditionalEnshrinement
+        :Foundation
+        :RoyalDesignation
+      }
+      ?event a :Event ;
+             :eventType ?eventType ;
+             :hasAction ?petition .
+      ?petition :isRecordedIn ?doc .
+      ?doc :gregorianDate ?date .
+      BIND(STR(?date) AS ?dateText)
+"      FILTER(?dateText <= ""1694-12-31"")"
+      {
+        ?event :concernsSeowon ?seowon .
+        ?petition :petitionsForEnshrinementOf ?person ;
+                  :hasPetitionResult :Approved .
+      }
+      UNION
+      {
+        ?petition :hasPetitionItem ?item .
+        ?item :petitionsForEnshrinementOf ?person ;
+              :hasPetitionResult :Approved .
+        OPTIONAL { ?item :concernsSeowon ?itemSeowon . }
+        OPTIONAL { ?event :concernsSeowon ?eventSeowon . }
+"        BIND(COALESCE(?itemSeowon, ?eventSeowon) AS ?seowon)"
+        FILTER(BOUND(?seowon))
+      }
+    }
+    GROUP BY ?person ?seowon
+  }
+  ?person rdfs:label ?personLabel .
+  ?seowon rdfs:label ?seowonLabel .
+}
+GROUP BY ?personLabel
+HAVING (COUNT(DISTINCT ?seowon) >= 3)
+ORDER BY DESC(?seowonCount) ?personLabel

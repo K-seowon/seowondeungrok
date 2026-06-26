@@ -1,0 +1,112 @@
+﻿표Ⅴ-4. 1694년 이전과 이후의 중첩 배향 건립 청원 내용
+PREFIX : <http://dh.aks.ac.kr/ontology/seowondeungrok#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?period_label
+?event_label
+?final_date_text
+"(GROUP_CONCAT(DISTINCT ?seowon_text; separator="", "") AS ?seowon_list)"
+"(GROUP_CONCAT(DISTINCT ?region_text; separator="", "") AS ?region_list)"
+"(GROUP_CONCAT(DISTINCT ?person_label; separator="", "") AS ?overlap_persons)"
+"(GROUP_CONCAT(DISTINCT ?count_text; separator="", "") AS ?overlap_counts)"
+?result_label
+WHERE {
+{
+SELECT ?event ?event_label ?date_sort ?final_date_text ?period_label ?result_label
+WHERE {
+?event a :Event ;
+:eventType :Foundation ;
+rdfs:label ?event_label .
+{
+SELECT ?event (MAX(?date_num) AS ?date_sort)
+WHERE {
+?event :hasAction ?act .
+?act :isRecordedIn ?doc .
+?doc :gregorianDate ?date .
+"BIND(xsd:integer(REPLACE(STR(?date), ""-"", """")) AS ?date_num)"
+}
+GROUP BY ?event
+}
+"BIND(IF(?date_sort <= 16941231, ""1694년까지"", ""1695년 이후"") AS ?period_label)"
+?event :hasAction ?final_act .
+?final_act :isRecordedIn ?final_doc .
+?final_doc :gregorianDate ?final_date ;
+:dateLabel ?final_date_text .
+"BIND(xsd:integer(REPLACE(STR(?final_date), ""-"", """")) AS ?final_date_num)"
+FILTER(?final_date_num = ?date_sort)
+OPTIONAL {
+{
+?final_act :hasPetitionResult ?result .
+}
+UNION
+{
+?final_act :hasPetitionItem ?final_item .
+?final_item :hasPetitionResult ?result .
+}
+}
+BIND(
+"IF(!BOUND(?result), ""미기재"","
+"IF(?result = :Approved, ""허가"","
+"IF(?result = :Rejected, ""불허"","
+"IF(?result = :Deferred, ""보류"", STRAFTER(STR(?result), ""#""))"
+)
+)
+) AS ?result_label
+)
+}
+}
+{
+SELECT ?event ?person ?person_label ((COUNT(DISTINCT ?prior_event) + 1) AS ?occurrence)
+WHERE {
+?event a :Event ;
+:eventType :Foundation .
+{
+SELECT ?event (MAX(?date_num2) AS ?event_date_num)
+WHERE {
+?event :hasAction ?act2 .
+?act2 :isRecordedIn ?doc2 .
+?doc2 :gregorianDate ?date2 .
+"BIND(xsd:integer(REPLACE(STR(?date2), ""-"", """")) AS ?date_num2)"
+}
+GROUP BY ?event
+}
+?event :hasAction ?this_act .
+?this_act :petitionsForEnshrinementOf ?person .
+?person rdfs:label ?person_label .
+"FILTER(LANG(?person_label) = ""ko"" || LANG(?person_label) = """")"
+VALUES ?priorEventType {
+:Foundation
+:RoyalDesignation
+:AdditionalEnshrinement
+}
+?prior_event a :Event ;
+:eventType ?priorEventType .
+FILTER(?prior_event != ?event)
+?prior_event :hasAction ?prior_act .
+?prior_act :petitionsForEnshrinementOf ?person ;
+:isRecordedIn ?prior_doc .
+?prior_doc :gregorianDate ?prior_date .
+"BIND(xsd:integer(REPLACE(STR(?prior_date), ""-"", """")) AS ?prior_date_num)"
+FILTER(?prior_date_num < ?event_date_num)
+}
+GROUP BY ?event ?person ?person_label
+}
+"BIND(CONCAT(STR(?person_label), "" "", STR(?occurrence), ""회째"") AS ?count_text)"
+OPTIONAL {
+?event :concernsSeowon ?sw .
+OPTIONAL {
+?sw rdfs:label ?seowon_label .
+"FILTER(LANG(?seowon_label) = ""ko"" || LANG(?seowon_label) = """")"
+}
+OPTIONAL {
+?sw :hasRegion ?rg .
+?rg rdfs:label ?region_label .
+"FILTER(LANG(?region_label) = ""ko"" || LANG(?region_label) = """")"
+}
+}
+"BIND(IF(BOUND(?seowon_label), STR(?seowon_label), ""미기재"") AS ?seowon_text)"
+"BIND(IF(BOUND(?region_label), STR(?region_label), ""미기재"") AS ?region_text)"
+}
+GROUP BY ?period_label ?event ?event_label ?date_sort ?final_date_text ?result_label
+ORDER BY ?date_sort ?event_label

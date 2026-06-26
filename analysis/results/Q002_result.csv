@@ -1,0 +1,6 @@
+﻿구분,before_total_all,before_overlap,before_ratio_text,after_total_all,after_overlap,after_ratio_text,변화
+청건,23,14,0.609,18,9,0.5,▼ 10.9%p
+청액,124,78,0.629,70,54,0.771,▲ 14.2%p
+추향,43,23,0.535,31,13,0.419,▼ 11.6%p
+총계,190,115,0.605,119,76,0.639,▲ 3.4%p
+Sparql 쿼리문(수정 설계 기준),,,,,,,

@@ -1,0 +1,165 @@
+﻿표 Ⅴ-7. 건립·사액·추가배향 승인 서원
+PREFIX : <http://dh.aks.ac.kr/ontology/seowondeungrok#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?경로 ?지역 ?서원명 ?배향인물 ?건립허가일 ?사액허가일 ?추향허가
+WHERE {
+  ?서원 a :Seowon ;
+        rdfs:label ?서원명 .
+"  FILTER(LANG(?서원명) = ""ko"" || LANG(?서원명) = """")"
+  OPTIONAL {
+    ?서원 :hasRegion ?지역개체 .
+    ?지역개체 rdfs:label ?지역라벨 .
+"    FILTER(LANG(?지역라벨) = ""ko"" || LANG(?지역라벨) = """")"
+  }
+"  BIND(IF(BOUND(?지역라벨), STR(?지역라벨), ""미기재"") AS ?지역)"
+  # 1. 건립 허가일
+  OPTIONAL {
+    SELECT ?서원 (MIN(?dateText) AS ?건립일)
+    WHERE {
+      ?건립사건 a :Event ;
+              :eventType :Foundation ;
+              :concernsSeowon ?서원 ;
+              :hasAction ?건립행위 .
+      ?건립행위 :isRecordedIn ?건립문건 .
+      ?건립문건 :gregorianDate ?건립날짜 .
+      BIND(STR(?건립날짜) AS ?dateText)
+      {
+        ?건립행위 :hasPetitionResult :Approved .
+      }
+      UNION
+      {
+        ?건립행위 :hasPetitionItem ?건립항목 .
+        ?건립항목 :hasPetitionResult :Approved .
+      }
+    }
+    GROUP BY ?서원
+  }
+  # 2. 사액 허가일
+  OPTIONAL {
+    SELECT ?서원 (MIN(?dateText) AS ?사액일)
+    WHERE {
+      ?사액사건 a :Event ;
+              :eventType :RoyalDesignation ;
+              :concernsSeowon ?서원 ;
+              :hasAction ?사액행위 .
+      ?사액행위 :isRecordedIn ?사액문건 .
+      ?사액문건 :gregorianDate ?사액날짜 .
+      BIND(STR(?사액날짜) AS ?dateText)
+      {
+        ?사액행위 :hasPetitionResult :Approved .
+      }
+      UNION
+      {
+        ?사액행위 :hasPetitionItem ?사액항목 .
+        ?사액항목 :hasPetitionResult :Approved .
+      }
+    }
+    GROUP BY ?서원
+  }
+  # 3. 건립·사액 승인 시 배향인물
+  OPTIONAL {
+    SELECT ?서원
+"           (GROUP_CONCAT(DISTINCT ?배향인물명; separator="", "") AS ?배향인물목록)"
+    WHERE {
+      VALUES ?기본문서유형 {
+        :Foundation
+        :RoyalDesignation
+      }
+      ?기본사건 a :Event ;
+              :eventType ?기본문서유형 ;
+              :concernsSeowon ?서원 ;
+              :hasAction ?기본행위 .
+      {
+        ?기본행위 :petitionsForEnshrinementOf ?인물 ;
+                  :hasPetitionResult :Approved .
+      }
+      UNION
+      {
+        ?기본행위 :hasPetitionItem ?기본항목 .
+        ?기본항목 :petitionsForEnshrinementOf ?인물 ;
+                  :hasPetitionResult :Approved .
+      }
+      ?인물 rdfs:label ?인물라벨 .
+"      FILTER(LANG(?인물라벨) = ""ko"" || LANG(?인물라벨) = """")"
+"      BIND(REPLACE(STR(?인물라벨), ""\\s*\\([^)]*\\)$"", """") AS ?배향인물명)"
+    }
+    GROUP BY ?서원
+  }
+  # 4. 추향 허가일 + 추향 인물
+  OPTIONAL {
+    SELECT ?서원
+           (MIN(?dateText) AS ?추향일)
+"           (GROUP_CONCAT(DISTINCT ?추향표시; separator="", "") AS ?추향허가목록)"
+    WHERE {
+      ?추향사건 a :Event ;
+              :eventType :AdditionalEnshrinement ;
+              :concernsSeowon ?서원 ;
+              :hasAction ?추향행위 .
+      ?추향행위 :isRecordedIn ?추향문건 .
+      ?추향문건 :gregorianDate ?추향날짜 .
+      BIND(STR(?추향날짜) AS ?dateText)
+      {
+        ?추향행위 :petitionsForEnshrinementOf ?추향인물 ;
+                  :hasPetitionResult :Approved .
+      }
+      UNION
+      {
+        ?추향행위 :hasPetitionItem ?추향항목 .
+        ?추향항목 :petitionsForEnshrinementOf ?추향인물 ;
+                  :hasPetitionResult :Approved .
+      }
+      ?추향인물 rdfs:label ?추향인물라벨 .
+"      FILTER(LANG(?추향인물라벨) = ""ko"" || LANG(?추향인물라벨) = """")"
+"      BIND(REPLACE(STR(?추향인물라벨), ""\\s*\\([^)]*\\)$"", """") AS ?추향인물명)"
+      BIND(
+        CONCAT(
+"          SUBSTR(?dateText, 1, 4), ""."","
+"          STR(xsd:integer(SUBSTR(?dateText, 6, 2))), ""."","
+"          STR(xsd:integer(SUBSTR(?dateText, 9, 2))),"
+"          "" "","
+          ?추향인물명
+        )
+        AS ?추향표시
+      )
+    }
+    GROUP BY ?서원
+  }
+  BIND(
+"    IF(BOUND(?건립일),"
+      CONCAT(
+"        SUBSTR(?건립일, 1, 4), ""."","
+"        STR(xsd:integer(SUBSTR(?건립일, 6, 2))), ""."","
+"        STR(xsd:integer(SUBSTR(?건립일, 9, 2)))"
+"      ),"
+"      """""
+    )
+    AS ?건립허가일
+  )
+  BIND(
+"    IF(BOUND(?사액일),"
+      CONCAT(
+"        SUBSTR(?사액일, 1, 4), ""."","
+"        STR(xsd:integer(SUBSTR(?사액일, 6, 2))), ""."","
+"        STR(xsd:integer(SUBSTR(?사액일, 9, 2)))"
+"      ),"
+"      """""
+    )
+    AS ?사액허가일
+  )
+"  BIND(IF(BOUND(?배향인물목록), ?배향인물목록, """") AS ?배향인물)"
+"  BIND(IF(BOUND(?추향허가목록), ?추향허가목록, """") AS ?추향허가)"
+  BIND(
+"    IF(BOUND(?건립일) && BOUND(?사액일) && BOUND(?추향일), ""건립-사액-추향"","
+"    IF(BOUND(?건립일) && BOUND(?사액일) && !BOUND(?추향일), ""건립-사액"","
+"    IF(BOUND(?건립일) && !BOUND(?사액일) && BOUND(?추향일), ""건립-추향"","
+"    IF(!BOUND(?건립일) && BOUND(?사액일) && BOUND(?추향일), ""사액-추향"","
+"    IF(BOUND(?건립일) && !BOUND(?사액일) && !BOUND(?추향일), ""건립만"","
+"    IF(!BOUND(?건립일) && BOUND(?사액일) && !BOUND(?추향일), ""사액만"","
+"    IF(!BOUND(?건립일) && !BOUND(?사액일) && BOUND(?추향일), ""추향만"","
+"    """")))))))"
+    AS ?경로
+  )
+"  FILTER(?경로 != """")"
+}
+ORDER BY ?경로 ?지역 ?서원명

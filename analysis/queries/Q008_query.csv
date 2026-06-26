@@ -1,0 +1,85 @@
+﻿표 Ⅴ-9. 3회 이상 반복 청원을 한 서원
+PREFIX : <http://dh.aks.ac.kr/ontology/seowondeungrok#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?지역 ?서원 ?사건 ?청원유형 ?총청원횟수 ?배향인물 ?청원날짜_결과
+WHERE {
+  {
+    SELECT ?event
+           (SAMPLE(?regionName) AS ?지역)
+           (SAMPLE(?seowonName) AS ?서원)
+           (SAMPLE(?eventName) AS ?사건)
+           (SAMPLE(?actTypeName) AS ?청원유형)
+           (COUNT(DISTINCT ?act) AS ?총청원횟수)
+"           (GROUP_CONCAT(DISTINCT ?personName; separator="", "") AS ?배향인물)"
+"           (GROUP_CONCAT(DISTINCT ?dateResult; separator="" → "") AS ?청원날짜_결과)"
+    WHERE {
+      ?event :concernsSeowon ?seowon ;
+             rdfs:label ?eventLabel .
+      ?seowon rdfs:label ?seowonLabel .
+"      FILTER(LANG(?seowonLabel) = ""ko"")"
+      OPTIONAL {
+        ?seowon :hasRegion ?region .
+        ?region rdfs:label ?regionLabel .
+"        FILTER(LANG(?regionLabel) = ""ko"")"
+      }
+      {
+        ?event :hasAction ?act .
+      }
+      UNION
+      {
+        ?act :partOfEvent ?event .
+      }
+      ?act rdfs:label ?actLabel ;
+           :actType ?actType .
+      VALUES ?actType {
+        :FoundationPetition
+        :RoyalDesignationPetition
+        :AdditionalEnshrinementPetition
+      }
+      ?actType rdfs:label ?actTypeLabel .
+"      FILTER(LANG(?actTypeLabel) = ""ko"")"
+      # 실제 청원 행위만 포함
+"      FILTER(CONTAINS(STR(?actLabel), ""청원""))"
+      # 심사·보고·지시 등 후속 행위 제외
+"      FILTER(!CONTAINS(STR(?actLabel), ""(심사""))"
+"      FILTER(!CONTAINS(STR(?actLabel), ""(보고""))"
+"      FILTER(!CONTAINS(STR(?actLabel), ""(지시""))"
+"      # 청원대상항목, 예: 추향46_청원1a/b/c 같은 분화 항목을 가진 부모행위는"
+      # 반복청원 횟수 계산에서 제외
+      FILTER NOT EXISTS {
+        ?act :hasPetitionItem ?item .
+      }
+      OPTIONAL {
+        ?act :isRecordedIn ?doc .
+        ?doc :gregorianDate ?gDate ;
+             :dateLabel ?dateLabel .
+      }
+      OPTIONAL {
+        ?act :hasPetitionResult ?result .
+        ?result rdfs:label ?resultLabel .
+"        FILTER(LANG(?resultLabel) = ""ko"")"
+      }
+      # 배향인물: 행위 자체에 연결된 인물
+      OPTIONAL {
+        ?act :petitionsForEnshrinementOf ?person .
+        ?person rdfs:label ?personLabel .
+"        FILTER(LANG(?personLabel) = ""ko"")"
+      }
+"      BIND(COALESCE(STR(?regionLabel), ""미기재"") AS ?regionName)"
+      BIND(STR(?seowonLabel) AS ?seowonName)
+      BIND(STR(?eventLabel) AS ?eventName)
+      BIND(STR(?actTypeLabel) AS ?actTypeName)
+"      BIND(COALESCE(STR(?personLabel), ""미기재"") AS ?personName)"
+      BIND(
+        CONCAT(
+"          COALESCE(STR(?dateLabel), ""날짜미기재""),"
+"          "" "","
+"          COALESCE(STR(?resultLabel), ""결과미기재"")"
+        ) AS ?dateResult
+      )
+    }
+    GROUP BY ?event
+    HAVING(COUNT(DISTINCT ?act) >= 3)
+  }
+}
+ORDER BY DESC(?총청원횟수) ?지역 ?서원 ?사건

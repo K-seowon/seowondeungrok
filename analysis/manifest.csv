@@ -1,0 +1,9 @@
+﻿query_id,title,query_file,result_file
+Q001,표Ⅴ-2. 1694년 이전 3곳이상 중첩 배향인물,queries/Q001_query.csv,results/Q001_result.csv
+Q002,표Ⅴ-3. 1694년 이전과 이후의 중첩 청원 비중,queries/Q002_query.csv,results/Q002_result.csv
+Q003,표Ⅴ-4. 1694년 이전과 이후의 중첩 건립 청원 내용,queries/Q003_query.csv,results/Q003_result.csv
+Q004,표Ⅴ-5. 1704년 이전과 이후의 대명현  청원 비중,queries/Q004_query.csv,results/Q004_result.csv
+Q005,표Ⅴ-6. 1704년 이후의 대명현 중첩 배향 인물,queries/Q005_query.csv,results/Q005_result.csv
+Q006,표 Ⅴ-7. 건립·사액·추가배향 승인 서원,queries/Q006_query.csv,results/Q006_result.csv
+Q007,표 Ⅴ-8. 이황과 이이의 서원 배향 지역 분포와 승인,queries/Q007_query.csv,results/Q007_result.csv
+Q008,표 Ⅴ-9. 3회 이상 반복 청원을 한 서원,queries/Q008_query.csv,results/Q008_result.csv

@@ -1,0 +1,99 @@
+﻿표Ⅴ-6. 1704년 이후의 대명현 중첩 배향 인물
+PREFIX : <http://dh.aks.ac.kr/ontology/seowondeungrok#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT ?date_text ?type_label ?person_label ?seowon_name ?region_label ?result_label
+WHERE {
+VALUES (?eventType ?type_label) {
+"(:Foundation ""청건"")"
+"(:RoyalDesignation ""청액"")"
+"(:AdditionalEnshrinement ""추향"")"
+}
+?event a :Event ;
+:eventType ?eventType .
+{
+SELECT ?event (MAX(?date_num) AS ?event_date_num)
+WHERE {
+?event :hasAction ?act .
+?act :isRecordedIn ?doc .
+?doc :gregorianDate ?date .
+"BIND(xsd:integer(REPLACE(STR(?date), ""-"", """")) AS ?date_num)"
+}
+GROUP BY ?event
+}
+FILTER(?event_date_num > 17040625)
+?event :hasAction ?this_act .
+?this_act :petitionsForEnshrinementOf ?person .
+?person rdfs:label ?person_label .
+"FILTER(LANG(?person_label) = ""ko"" || LANG(?person_label) = """")"
+VALUES ?dmh_name {
+"""최치원"""
+"""설총"""
+"""안유"""
+"""안향"""
+"""정몽주"""
+"""김굉필"""
+"""정여창"""
+"""조광조"""
+"""이언적"""
+"""이황"""
+"""이이"""
+"""성혼"""
+"""김장생"""
+}
+"FILTER(REPLACE(STR(?person_label), ""\\s*\\(.*\\)$"", """") = ?dmh_name)"
+FILTER EXISTS {
+VALUES ?priorEventType {
+:Foundation
+:RoyalDesignation
+:AdditionalEnshrinement
+}
+?prior_event a :Event ;
+:eventType ?priorEventType .
+FILTER(?prior_event != ?event)
+?prior_event :hasAction ?prior_act .
+?prior_act :petitionsForEnshrinementOf ?person ;
+:isRecordedIn ?prior_doc .
+?prior_doc :gregorianDate ?prior_date .
+"BIND(xsd:integer(REPLACE(STR(?prior_date), ""-"", """")) AS ?prior_date_num)"
+FILTER(?prior_date_num < ?event_date_num)
+}
+?event :hasAction ?final_act .
+?final_act :isRecordedIn ?final_doc .
+?final_doc :gregorianDate ?final_date ;
+:dateLabel ?date_text .
+"BIND(xsd:integer(REPLACE(STR(?final_date), ""-"", """")) AS ?final_date_num)"
+FILTER(?final_date_num = ?event_date_num)
+OPTIONAL {
+{
+?final_act :hasPetitionResult ?result .
+}
+UNION
+{
+?final_act :hasPetitionItem ?final_item .
+?final_item :targetPerson ?person ;
+:hasPetitionResult ?result .
+}
+}
+BIND(
+"IF(!BOUND(?result), ""미기재"","
+"IF(?result = :Approved, ""허가"","
+"IF(?result = :Rejected, ""불허"","
+"IF(?result = :Deferred, ""보류"", STRAFTER(STR(?result), ""#""))"
+)
+)
+) AS ?result_label
+)
+OPTIONAL {
+?event :concernsSeowon ?seowon .
+?seowon rdfs:label ?seowon_label .
+"BIND(REPLACE(STR(?seowon_label), ""\\s*\\(.*\\)$"", """") AS ?seowon_name)"
+OPTIONAL {
+?seowon :hasRegion ?region .
+?region rdfs:label ?region_label .
+"FILTER(LANG(?region_label) = ""ko"" || LANG(?region_label) = """")"
+}
+}
+}
+ORDER BY ?date_text ?type_label ?person_label

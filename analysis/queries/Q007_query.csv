@@ -1,0 +1,95 @@
+﻿표 Ⅴ-8. 이황과 이이의 서원 배향 지역 분포와 승인
+PREFIX : <http://dh.aks.ac.kr/ontology/seowondeungrok#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?인물 ?최종일자 ?지역 ?서원_최종횟수 ?사건종류 ?청원결과
+WHERE {
+  VALUES (?person ?인물) {
+"    (:P0119 ""이황"")"
+"    (:P0045 ""이이"")"
+  }
+  VALUES (?eventType ?사건종류) {
+"    (:Foundation ""청건"")"
+"    (:RoyalDesignation ""청액"")"
+"    (:AdditionalEnshrinement ""추향"")"
+  }
+  ?event a :Event ;
+         :eventType ?eventType ;
+         :hasAction ?person_act .
+  {
+    ?person_act :petitionsForEnshrinementOf ?person .
+  }
+  UNION
+  {
+    ?person_act :hasPetitionItem ?person_item .
+    ?person_item :petitionsForEnshrinementOf ?person .
+  }
+  {
+    SELECT ?event (MAX(?date) AS ?최종일자)
+    WHERE {
+      ?event :hasAction ?act .
+      ?act :isRecordedIn ?doc .
+      ?doc :gregorianDate ?date .
+    }
+    GROUP BY ?event
+  }
+  OPTIONAL {
+    ?event :hasAction ?final_act .
+    ?final_act :isRecordedIn ?final_doc .
+    ?final_doc :gregorianDate ?최종일자 .
+    {
+      ?final_act :petitionsForEnshrinementOf ?person ;
+                 :hasPetitionResult ?result .
+    }
+    UNION
+    {
+      ?final_act :hasPetitionItem ?final_item .
+      ?final_item :petitionsForEnshrinementOf ?person ;
+                  :hasPetitionResult ?result .
+    }
+  }
+  {
+    SELECT ?event ?person (COUNT(DISTINCT ?count_act) AS ?청원횟수)
+    WHERE {
+      VALUES ?person { :P0119 :P0045 }
+      {
+        ?event :hasAction ?count_act .
+        ?count_act :petitionsForEnshrinementOf ?person .
+      }
+      UNION
+      {
+        ?event :hasAction ?count_act .
+        ?count_act :hasPetitionItem ?count_item .
+        ?count_item :petitionsForEnshrinementOf ?person .
+      }
+    }
+    GROUP BY ?event ?person
+  }
+  OPTIONAL {
+    ?event :concernsSeowon ?seowon .
+    ?seowon rdfs:label ?seowon_label .
+"    FILTER(LANG(?seowon_label) = ""ko"" || LANG(?seowon_label) = """")"
+    OPTIONAL {
+      ?seowon :hasRegion ?region .
+      ?region rdfs:label ?region_label .
+"      FILTER(LANG(?region_label) = ""ko"" || LANG(?region_label) = """")"
+    }
+  }
+"  BIND(IF(BOUND(?region_label), STR(?region_label), ""미기재"") AS ?지역)"
+  BIND(
+    IF(
+"      BOUND(?seowon_label),"
+"      REPLACE(STR(?seowon_label), ""\\s*\\(.*\\)$"", """"),"
+"      ""미기재"""
+    ) AS ?서원명
+  )
+"  BIND(CONCAT(?서원명, ""("", STR(?청원횟수), ""회)"") AS ?서원_최종횟수)"
+  BIND(
+"    IF(!BOUND(?result), ""미기재"","
+"    IF(?result = :Approved, ""허가"","
+"    IF(?result = :Rejected, ""불허"","
+"    IF(?result = :Deferred, ""보류"", ""미기재""))))"
+    AS ?청원결과
+  )
+}
+GROUP BY ?인물 ?최종일자 ?지역 ?서원_최종횟수 ?사건종류 ?청원결과
+"ORDER BY (IF(?인물 = ""이황"", 1, 2)) ?최종일자 ?지역 ?서원_최종횟수"
