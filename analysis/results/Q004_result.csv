@@ -1,5 +1,5 @@
 ﻿type_label,before_total,before_dmh,before_dmh_ratio,before_approved,before_rejected,before_approval_rate,after_total,after_dmh,after_dmh_ratio,after_approved,after_rejected,after_approval_rate,열1
 청건,청건,34,1,0.029,1,0,1,6,0,0,0,0,-
-청액,청액,166,33,0.199,25,8,0.758,28,4,0.143,2,2,50.0%
+청액,청액,165,32,0.194,24,8,0.750,28,4,0.143,2,2,50.0%
 추향,추향,58,1,0.017,1,0,1,16,0,0,0,0,-
 Sparql 쿼리문(수정 설계 기준),,,,,,,,,,,,,
