@@ -1,8 +1,8 @@
 # 표 Ⅴ-2. 1694년 이전 3곳이상 중첩 배향인물
 # 서원등록 온톨로지 SPARQL 질의
-# Ontology namespace: http://dh.aks.ac.kr/ontology/seowondeungrok#
+# Ontology namespace: http://dh.aks.ac.kr/ontologies/seowondeungrok#
 
-PREFIX : <http://dh.aks.ac.kr/ontology/seowondeungrok#>
+PREFIX : <http://dh.aks.ac.kr/ontologies/seowondeungrok#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?personLabel
