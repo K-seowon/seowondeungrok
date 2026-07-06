@@ -1,8 +1,8 @@
 # 표 Ⅴ-7. 건립·사액·추가배향 승인 서원
 # 서원등록 온톨로지 SPARQL 질의
-# Ontology namespace: http://dh.aks.ac.kr/ontology/seowondeungrok#
+# Ontology namespace: http://dh.aks.ac.kr/ontologies/seowondeungrok#
 
-PREFIX : <http://dh.aks.ac.kr/ontology/seowondeungrok#>
+PREFIX : <http://dh.aks.ac.kr/ontologies/seowondeungrok#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
