@@ -1,8 +1,8 @@
 # 표 Ⅴ-9. 3회 이상 반복 청원을 한 서원
 # 서원등록 온톨로지 SPARQL 질의
-# Ontology namespace: http://dh.aks.ac.kr/ontology/seowondeungrok#
+# Ontology namespace: http://dh.aks.ac.kr/ontologies/seowondeungrok#
 
-PREFIX : <http://dh.aks.ac.kr/ontology/seowondeungrok#>
+PREFIX : <http://dh.aks.ac.kr/ontologies/seowondeungrok#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?지역 ?서원 ?사건 ?청원유형 ?총청원횟수 ?배향인물 ?청원날짜_결과
