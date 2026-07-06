@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#follows">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#precedes"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:label xml:lang="ko">(행위에)이어지다</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#precedes">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:label xml:lang="ko">(행위에)앞서다</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#isRecordedIn">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#records"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Document"/>
+    <rdfs:label xml:lang="ko">기록되다</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#Policy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">정책</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#isPetitionedForEnshrinementBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#petitionsForEnshrinementOf"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Person"/>
+    <rdfs:comment xml:lang="ko">특정 인물이 청원 행위 또는 청원대상항목의 제향 대상으로 연결되는 관계 속성</rdfs:comment>
+    <rdfs:label xml:lang="ko">제향되다</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#RevokedDesignationPetition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">철액</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#translation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="ko">번역문</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#concernsSeowon">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Event"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Seowon"/>
+    <rdfs:comment xml:lang="ko">사건, 행위 또는 청원대상항목이 특정 서원과 관련되는 관계 속성</rdfs:comment>
+    <rdfs:label xml:lang="ko">관련서원</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#ReEnshrinementPetition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">복향</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#Document">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="ko">문건</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#hanjaName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="ko">한자명</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#petitionsForEnshrinementOf">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#PetitionItem"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Person"/>
+    <rdfs:comment xml:lang="ko">청원 행위 또는 청원대상항목이 특정 인물을 제향 대상으로 삼는 관계 속성</rdfs:comment>
+    <rdfs:label xml:lang="ko">제향하다</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#hasPetitionResult">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#PetitionItem"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Result"/>
+    <rdfs:comment xml:lang="ko">청원 행위 또는 청원대상항목에 대한 허가·불허 등의 청원 결과를 나타내는 관계 속성</rdfs:comment>
+    <rdfs:label xml:lang="ko">청원결과</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#RestorationPetition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">복설</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#Result">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="ko">청원결과</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#hasPetitionItem">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#itemOfAct"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#PetitionItem"/>
+    <rdfs:label xml:lang="ko">청원대상항목을 포함하다</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#sexagenaryYear">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="ko">간지</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#PetitionItem">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="ko">청원대상항목</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#DeEnshrinementPetition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">출향</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#itemOfAct">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#PetitionItem"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:label xml:lang="ko">청원행위에 속하다</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#hasAction">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#partOfEvent"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Event"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:label xml:lang="ko">(행위를)포함하다</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#externalURL">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+    <rdfs:label xml:lang="ko">외부URL</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/2001/XMLSchema#date">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Datatype"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#FoundationPetition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">청건청원</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#originalText">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="ko">원문</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#RoyalDesignation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">청액</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#hasExistingEnshrinedPerson">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Event"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Person"/>
+    <rdfs:comment xml:lang="ko">추향 사건 당시 해당 서원·사우에 이미 배향되어 있던 인물</rdfs:comment>
+    <rdfs:label xml:lang="ko">기존배향인물</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#AbolitionPetition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">훼철</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#reignYear">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="ko">재위년</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#RoyalDesignationPetition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">청액청원</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#Seowon">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="ko">서원</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#headnote">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Document"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="ko">건명</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="ko">행위</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#gregorianDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:label xml:lang="ko">양력</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#hasRegion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Seowon"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Region"/>
+    <rdfs:label xml:lang="en">has region</rdfs:label>
+    <rdfs:label xml:lang="ko">소재지역</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#reignMonarch">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="ko">왕대</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#PolicyExecution">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">정책시행</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#birthYear">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="ko">생년</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#locationLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Seowon"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="ko">소재지</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#deathYear">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:label xml:lang="ko">몰년</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#actType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:label xml:lang="ko">행위유형</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#Event">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="ko">사건</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#Region">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="ko">지역</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#lifeSpan">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="ko">생몰년</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#records">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Document"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:label xml:lang="ko">기록하다</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#eventGroup">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Event"/>
+    <rdfs:label xml:lang="ko">사건범주</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#RS_RoyalDesignation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">청액</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#dateLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="ko">날짜표기</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#Foundation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">청건</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#Restoration">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">복설훼철</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#RestoredDesignationPetition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">복액</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#eventType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Event"/>
+    <rdfs:label xml:lang="ko">사건유형</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#Person">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="ko">인물</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#partOfEvent">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Act"/>
+    <rdfs:range rdf:resource="http://dh.aks.ac.kr/ontologies/seowondeungrok#Event"/>
+    <rdfs:label xml:lang="ko">(사건에)속하다</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#reignYearLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:label xml:lang="ko">재위년표기</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#AdditionalEnshrinement">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">추향</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#AdditionalEnshrinementPetition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">추향청원</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dh.aks.ac.kr/ontologies/seowondeungrok#Petition">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#NamedIndividual"/>
+    <rdfs:label xml:lang="ko">청원</rdfs:label>
+  </rdf:Description>
+</rdf:RDF>
