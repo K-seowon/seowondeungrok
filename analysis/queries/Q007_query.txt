@@ -1,8 +1,8 @@
 # 표 Ⅴ-8. 이황과 이이의 서원 배향 지역 분포와 승인
 # 서원등록 온톨로지 SPARQL 질의
-# Ontology namespace: http://dh.aks.ac.kr/ontology/seowondeungrok#
+# Ontology namespace: http://dh.aks.ac.kr/ontologies/seowondeungrok#
 
-PREFIX : <http://dh.aks.ac.kr/ontology/seowondeungrok#>
+PREFIX : <http://dh.aks.ac.kr/ontologies/seowondeungrok#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?인물 ?최종일자 ?지역 ?서원_최종횟수 ?사건종류 ?청원결과
