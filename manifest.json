@@ -1,0 +1,41 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://k-seowon.github.io/seowondeungrok/manifest.json",
+  "type": "Manifest",
+  "label": { "ko": ["서원등록 실습"] },
+  "viewingDirection": "right-to-left",
+  "requiredStatement": {
+    "label": { "ko": ["제작"] },
+    "value": { "ko": ["류현정"] }
+  },
+  "items": [
+    {
+      "id": "https://k-seowon.github.io/seowondeungrok/canvas/1",
+      "type": "Canvas",
+      "label": { "ko": ["1장"] },
+      "width": 1428,
+      "height": 1071,
+      "items": [
+        {
+          "id": "https://k-seowon.github.io/seowondeungrok/page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://k-seowon.github.io/seowondeungrok/anno/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://k-seowon.github.io/seowondeungrok/img01.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 1428,
+                "height": 1071
+              },
+              "target": "https://k-seowon.github.io/seowondeungrok/canvas/1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
